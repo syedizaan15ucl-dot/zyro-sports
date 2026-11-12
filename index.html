@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style><title>ZYRO Official Store</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style><script src="config.js"></script><title>ZYRO Official Store</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -401,7 +401,6 @@ body{animation:pageIn .6s ease both}
 .pill.pending{color:var(--warn)}.pill.delivered{color:var(--ok)}
 </style>
 <div id="root"></div>
-<form name="orders" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden><input name="bot-field"><input name="name"><input name="phone"><input name="address"><textarea name="items"></textarea><input name="total"><input name="shipping"><input name="reference"></form>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 (function(){
@@ -767,7 +766,7 @@ function vCart(){
 /* ---------- admin ---------- */
 const STATUS=['pending','confirmed','shipped','delivered','cancelled'];
 function vAdmin(){
- if(!S.isAdmin)return `<section class="band bone" style="min-height:80vh;padding-block:clamp(40px,8vw,120px)"><div class="wrap" style="max-width:520px"><p class="eyebrow">ZYRO</p><h1 class="h-xl h-md" style="margin-bottom:24px">Admin sign in</h1><form id="loginForm" class="panel stack" novalidate><div class="field"><label for="lg-pw">Administrator password</label><input id="lg-pw" type="password" autocomplete="current-password" required></div><button class="btn" type="submit">Sign in</button><p class="note" id="lgErr" role="alert"></p></form><p class="note" style="margin-top:20px"><a href="/">Back to the store</a></p></div></section>`;
+ if(!S.isAdmin)return `<section class="band bone" style="min-height:80vh;padding-block:clamp(40px,8vw,120px)"><div class="wrap" style="max-width:520px"><p class="eyebrow">ZYRO</p><h1 class="h-xl h-md" style="margin-bottom:24px">Admin sign in</h1><form id="loginForm" class="panel stack" novalidate><div class="field"><label for="lg-em">Administrator email</label><input id="lg-em" type="email" autocomplete="username" value="${esc((window.ZYRO_CONFIG||{}).adminEmail||'')}" required></div><div class="field"><label for="lg-pw">Password</label><input id="lg-pw" type="password" autocomplete="current-password" required></div><button class="btn" type="submit">Sign in</button><p class="note" id="lgErr" role="alert"></p></form><p class="note" style="margin-top:20px"><a href="/">Back to the store</a></p></div></section>`;
  const tabs=[['products','Products'],['clubs','Clubs'],['text','Site text'],['orders','Orders and enquiries'],['settings','Store settings']];
  const nNew=S.entries.filter(e=>e.status==='pending').length;
  const b=S.tab==='products'?adminProducts():S.tab==='clubs'?adminClubs():S.tab==='text'?adminText():S.tab==='orders'?adminOrders():adminSettings();
@@ -819,7 +818,7 @@ function adminOrders(){
 function adminSettings(){
  const s=S.settings;
  const hero=S.heroDraft!==undefined?S.heroDraft:(s.heroImg||'');
- return `<form id="setForm" class="panel stack" style="max-width:640px" novalidate><div class="field"><label for="set-wa">WhatsApp number (with country code, digits only)</label><input id="set-wa" value="${esc(s.whatsapp)}" inputmode="tel"></div><div class="field"><label for="set-ig">Instagram handle</label><input id="set-ig" value="${esc(s.instagram)}"></div><div class="field"><label for="set-em">Contact email shown on the website</label><input id="set-em" type="email" value="${esc(s.email)}"></div><div class="row2"><div class="field"><label for="set-fs">Free shipping above (PKR)</label><input id="set-fs" type="number" min="0" value="${esc(s.freeShip||6300)}"></div><div class="field"><label for="set-an">Top banner text (empty uses the free shipping message)</label><input id="set-an" value="${esc(s.announce||'')}" maxlength="160"></div></div><div class="field"><label for="set-hero">Home page banner image (optional)</label><input id="set-hero" type="file" accept="image/png,image/jpeg,image/webp">${hero?`<div style="display:flex;gap:14px;align-items:center;margin-top:8px"><img src="${esc(hero)}" alt="" style="width:120px;height:90px;object-fit:cover;background:var(--bone)"><button type="button" class="linkbtn" data-act="heroRm">Remove banner image</button></div>`:'<p class="note">The default ZYRO banner is shown.</p>'}</div><p class="note">Orders are emailed to the address set on the server (ORDER_EMAIL_TO), not to the address above.</p><button class="btn" type="submit">Save settings</button></form>`;
+ return `<form id="setForm" class="panel stack" style="max-width:640px" novalidate><div class="field"><label for="set-wa">WhatsApp number (with country code, digits only)</label><input id="set-wa" value="${esc(s.whatsapp)}" inputmode="tel"></div><div class="field"><label for="set-ig">Instagram handle</label><input id="set-ig" value="${esc(s.instagram)}"></div><div class="field"><label for="set-em">Contact email shown on the website</label><input id="set-em" type="email" value="${esc(s.email)}"></div><div class="row2"><div class="field"><label for="set-fs">Free shipping above (PKR)</label><input id="set-fs" type="number" min="0" value="${esc(s.freeShip||6300)}"></div><div class="field"><label for="set-an">Top banner text (empty uses the free shipping message)</label><input id="set-an" value="${esc(s.announce||'')}" maxlength="160"></div></div><div class="field"><label for="set-hero">Home page banner image (optional)</label><input id="set-hero" type="file" accept="image/png,image/jpeg,image/webp">${hero?`<div style="display:flex;gap:14px;align-items:center;margin-top:8px"><img src="${esc(hero)}" alt="" style="width:120px;height:90px;object-fit:cover;background:var(--bone)"><button type="button" class="linkbtn" data-act="heroRm">Remove banner image</button></div>`:'<p class="note">The default ZYRO banner is shown.</p>'}</div><p class="note">Order emails are sent through the notification link in config.js. The free shipping amount is also applied by the database when orders are placed.</p><button class="btn" type="submit">Save settings</button></form>`;
 }
 
 function adminClubs(){
@@ -901,20 +900,93 @@ document.addEventListener('click',ev=>{
  route(h);
 });
 
-/* ---------- server API ---------- */
-function newRef(pre){return pre+'-'+Date.now().toString(36).toUpperCase().slice(-5)+Math.random().toString(36).slice(2,4).toUpperCase()}
-const API={
- tok(){try{return sessionStorage.getItem('zyro-admin')||''}catch(e){return ''}},
- async call(path,opt){
-  opt=opt||{};
-  const h={'Content-Type':'application/json'};const t=API.tok();if(t)h.Authorization='Bearer '+t;
-  const r=await fetch(path,{method:opt.method||'GET',headers:h,body:opt.body!==undefined?JSON.stringify(opt.body):undefined,cache:'no-store'});
-  let j=null;try{j=await r.json()}catch(e){}
-  if(!r.ok){const er=new Error((j&&j.error)||('Server error '+r.status));er.status=r.status;throw er}
-  return j;
- }
+/* ---------- Supabase backend (public address and anon key only; protected by database rules) ---------- */
+const CFG=window.ZYRO_CONFIG||{};
+const SB=String(CFG.supabaseUrl||'').replace(/\/+$/,''),KEY=String(CFG.anonKey||'');
+const sess={
+ get(){try{return JSON.parse(sessionStorage.getItem('zyro-sess')||'null')}catch(e){return null}},
+ set(v){try{if(v)sessionStorage.setItem('zyro-sess',JSON.stringify(v));else sessionStorage.removeItem('zyro-sess')}catch(e){}}
 };
-async function saveEntry(e){const r=await API.call('/api/submit',{method:'POST',body:e});return r.ref}
+const API={tok:()=>sess.get()?'1':''};
+function newRef(pre){return pre+'-'+Date.now().toString(36).toUpperCase().slice(-5)+Math.random().toString(36).slice(2,4).toUpperCase()}
+async function authToken(){
+ const s=sess.get();if(!s)return KEY;
+ if(s.exp-Date.now()>60000)return s.access_token;
+ try{
+  const r=await fetch(SB+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:s.refresh_token})});
+  const j=await r.json();
+  if(!r.ok||!j.access_token)throw new Error('expired');
+  sess.set({access_token:j.access_token,refresh_token:j.refresh_token||s.refresh_token,exp:Date.now()+(j.expires_in||3600)*1000});
+  return j.access_token;
+ }catch(e){sess.set(null);const er=new Error('Please sign in again.');er.status=401;throw er}
+}
+async function sb(path,opt){
+ opt=opt||{};
+ if(!SB||!KEY){const er=new Error('The store database is not connected yet.');er.status=0;er.config=true;throw er}
+ const h=Object.assign({apikey:KEY,Authorization:'Bearer '+(opt.noauth?KEY:await authToken())},opt.headers||{});
+ let body;
+ if(opt.raw!==undefined)body=opt.raw;
+ else if(opt.body!==undefined){body=JSON.stringify(opt.body);h['Content-Type']='application/json'}
+ const r=await fetch(SB+path,{method:opt.method||'GET',headers:h,body,cache:'no-store'});
+ const txt=await r.text();let j=null;try{j=txt?JSON.parse(txt):null}catch(e){}
+ if(!r.ok){
+  const er=new Error((j&&(j.message||j.msg||j.error_description||j.error))||('Server error '+r.status));
+  er.status=r.status;throw er;
+ }
+ return j;
+}
+async function sha(s){
+ try{const d=await crypto.subtle.digest('SHA-1',new TextEncoder().encode(s));return Array.from(new Uint8Array(d)).map(x=>x.toString(16).padStart(2,'0')).join('').slice(0,10)}
+ catch(e){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return Math.abs(h).toString(16)}
+}
+async function imgUp(id,field,val){
+ if(typeof val!=='string'||val.indexOf('data:image/')!==0)return val||'';
+ const blob=await (await fetch(val)).blob();
+ const ext=blob.type==='image/png'?'png':blob.type==='image/webp'?'webp':'jpg';
+ const name=id+'-'+field+'-'+(await sha(val))+'.'+ext;
+ await sb('/storage/v1/object/product-images/'+encodeURIComponent(name),{method:'POST',raw:blob,headers:{'Content-Type':blob.type||'image/jpeg','x-upsert':'true'}});
+ return SB+'/storage/v1/object/public/product-images/'+encodeURIComponent(name);
+}
+const upsert=(table,rows)=>sb('/rest/v1/'+table+'?on_conflict='+(table==='settings'?'key':'id'),{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:rows});
+async function prepProduct(id,data){
+ const d=JSON.parse(JSON.stringify(data));delete d.id;
+ d.img=await imgUp(id,'img',d.img);d.banner=await imgUp(id,'banner',d.banner);
+ return d;
+}
+S.db={doc:p=>{
+ const i=p.indexOf('/'),col=p.slice(0,i),id=p.slice(i+1);
+ return{
+  async set(data){
+   if(col==='products')await upsert('products',[{id,data:await prepProduct(id,data)}]);
+   else if(col==='clubs')await upsert('clubs',[{id,data}]);
+   else if(col==='settings'){const d=Object.assign({},data);if('heroImg' in d)d.heroImg=await imgUp('site','hero',d.heroImg);await upsert('settings',[{key:id,data:d}])}
+   await afterWrite();
+  },
+  async delete(){
+   await sb('/rest/v1/'+col+'?id=eq.'+encodeURIComponent(id),{method:'DELETE'});
+   await afterWrite();
+  }
+ }
+}};
+async function notifyOwner(fields){
+ const u=CFG.notifyUrl;if(!u)return false;
+ try{
+  const fd=new FormData();
+  Object.keys(fields).forEach(k=>fd.append(k,fields[k]));
+  if(CFG.notifyKey)fd.append('access_key',CFG.notifyKey);
+  const r=await fetch(u,{method:'POST',body:fd,headers:{Accept:'application/json'}});
+  return r.ok;
+ }catch(e){return false}
+}
+async function saveEntry(e){
+ const r=await sb('/rest/v1/rpc/submit_entry',{method:'POST',noauth:true,body:{p_type:e.type,p_data:e}});
+ const ref=r&&r.ref;
+ const f={_subject:'ZYRO '+e.type+' '+ref,subject:'ZYRO '+e.type+' '+ref,reference:ref,type:e.type};
+ if(e.type==='contact'){f.name=e.who;f.phone=e.phone||'';f.email=e.email||'';f.message=e.msg}
+ else{f.size=e.size;f.quantity=e.qty;f.note=e.note||'';f.message='Custom design uploaded. Open the Admin Portal to see the image.'}
+ notifyOwner(f);
+ return ref;
+}
 function busyField(){const a=document.activeElement;return a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)}
 function softRender(){if(!busyField()&&!S.editing)render()}
 function applyCatalog(c){
@@ -925,27 +997,36 @@ function applyCatalog(c){
  S.settings=Object.assign({whatsapp:'923218850554',instagram:'zyros_2026',email:'',freeShip:6300},c.settings||{});
  S.texts=c.texts||{};
 }
-async function loadCatalog(){try{applyCatalog(await API.call('/api/catalog'+(ADMIN_MODE?'?t='+Date.now():'')));return true}catch(e){return false}}
+async function fetchCatalog(){
+ const [p,c,s]=await Promise.all(['products','clubs','settings'].map(t=>sb('/rest/v1/'+t+'?select=*',{noauth:!ADMIN_MODE})));
+ const m=rows=>{const o={};(rows||[]).forEach(r=>{o[r.id]=r.data});return o};
+ const st={};(s||[]).forEach(r=>{st[r.key]=r.data});
+ return{products:m(p),clubs:m(c),settings:st.site||{},texts:st.texts||{}};
+}
+async function loadCatalog(){try{applyCatalog(await fetchCatalog());return true}catch(e){return false}}
 async function afterWrite(){await loadCatalog();softRender()}
-S.db={doc:p=>({
- async set(data){await API.call('/api/admin/'+p,{method:'PUT',body:data});await afterWrite()},
- async delete(){await API.call('/api/admin/'+p,{method:'DELETE'});await afterWrite()}
-})};
 async function loadEntries(){
- try{const r=await API.call('/api/admin/entries');S.entries=r.entries||[];return true}
- catch(e){if(e.status===401)adminLogout(true);return false}
+ try{
+  const rows=await sb('/rest/v1/entries?select=*&order=at.desc&limit=300');
+  S.entries=(rows||[]).map(r=>Object.assign({},r.data,{id:r.id,type:r.type,status:r.status,at:r.at}));
+  return true;
+ }catch(e){if(e.status===401||e.status===403)adminLogout(true);return false}
 }
 function adminLogout(silent){
- try{sessionStorage.removeItem('zyro-admin')}catch(e){}
+ sess.set(null);
  S.isAdmin=false;S.entries=[];if(!silent)toast('Signed out');render();
 }
 async function seedAll(){
  if(seedAll.busy)return;seedAll.busy=true;
  try{
-  const products={},clubs={};
-  DEFAULTS.forEach(p=>{const d=Object.assign({},p);delete d.id;products[p.id]=d});
-  DEFAULT_CLUBS.forEach(c=>{clubs[c.id]={name:c.name,bg:c.bg,fg:c.fg,n:c.n}});
-  await API.call('/api/admin/seed',{method:'PUT',body:{products,clubs}});
+  toast('Saving the ZYRO catalogue. This takes a minute...');
+  const rows=[];
+  for(let i=0;i<DEFAULTS.length;i+=4){
+   const part=await Promise.all(DEFAULTS.slice(i,i+4).map(async p=>({id:p.id,data:await prepProduct(p.id,p)})));
+   rows.push(...part);
+  }
+  await upsert('products',rows);
+  await upsert('clubs',DEFAULT_CLUBS.map(c=>({id:c.id,data:{name:c.name,bg:c.bg,fg:c.fg,n:c.n}})));
   await loadCatalog();toast('Catalogue saved. You can now edit everything.');
  }catch(e){toast('Could not save the catalogue: '+e.message)}
  seedAll.busy=false;render();
@@ -959,13 +1040,24 @@ async function adminStart(){
  adminStart.t=setInterval(async()=>{if(S.isAdmin&&await loadEntries()&&S.view==='admin'&&S.tab==='orders')softRender()},45000);
  render();
 }
+async function adminLogin(email,password){
+ let r;
+ try{r=await sb('/auth/v1/token?grant_type=password',{method:'POST',noauth:true,body:{email,password}})}
+ catch(e){if(e.status===400||e.status===401||e.status===422){const er=new Error('Wrong email or password.');er.status=401;throw er}throw e}
+ sess.set({access_token:r.access_token,refresh_token:r.refresh_token,exp:Date.now()+(r.expires_in||3600)*1000});
+ let ok=false;
+ try{ok=await sb('/rest/v1/rpc/is_admin',{method:'POST',body:{}})}catch(e){}
+ if(ok!==true){sess.set(null);const er=new Error('This account is not an administrator.');er.status=403;throw er}
+}
 async function boot(){
  route();
  await loadCatalog();
  render();
- if(ADMIN_MODE&&API.tok()){
-  try{await API.call('/api/admin/entries');await adminStart()}
-  catch(e){try{sessionStorage.removeItem('zyro-admin')}catch(x){}render()}
+ if(ADMIN_MODE&&sess.get()){
+  try{
+   if(await sb('/rest/v1/rpc/is_admin',{method:'POST',body:{}})===true)await adminStart();
+   else{sess.set(null);render()}
+  }catch(e){sess.set(null);render()}
  }
 }
 
@@ -1038,15 +1130,13 @@ document.addEventListener('click',async ev=>{
    S.placing=true;t.disabled=true;
    if(err)err.textContent='Placing your order...';
    try{
-    const r=await API.call('/api/submit',{method:'POST',body:{type:'order',hp:'',customer:{who:CK.name.trim(),phone:CK.phone.trim(),address:CK.addr.trim()},items:L.map(x=>({id:x.p.id,size:x.size,qty:x.qty}))}});
-    if(!r.emailed){
-     try{await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'orders',name:CK.name.trim(),phone:CK.phone.trim(),address:CK.addr.trim(),items:L.map(x=>x.qty+' x '+clubLabel(x.p)+' '+x.p.name+' ('+x.size+')').join('\n'),total:money(r.total),shipping:r.shipping,reference:r.ref}).toString()})}catch(x){}
-    }
+    const r=await sb('/rest/v1/rpc/place_order',{method:'POST',noauth:true,body:{p_hp:'',p_customer:{who:CK.name.trim(),phone:CK.phone.trim(),address:CK.addr.trim()},p_items:L.map(x=>({id:x.p.id,size:x.size,qty:x.qty}))}});
+    await notifyOwner({_subject:'New ZYRO order '+r.ref+' - PKR '+r.total,subject:'New ZYRO order '+r.ref+' - PKR '+r.total,reference:r.ref,name:CK.name.trim(),phone:CK.phone.trim(),address:CK.addr.trim(),items:L.map(x=>x.qty+' x '+clubLabel(x.p)+' '+x.p.name+' ('+x.size+')').join('\n'),total:'PKR '+r.total,shipping:r.shipping});
     CART=[];saveCart();S.orderRef=r.ref;S.orderInfo={total:r.total,shipping:r.shipping};S.placing=false;render();window.scrollTo(0,0);
    }catch(x){
     S.placing=false;t.disabled=false;
     const net=!x.status;
-    if(err)err.textContent=net?'We could not reach the store server. Check your internet connection and try again, or use Place order on WhatsApp.':x.message;
+    if(err)err.textContent=x.config?'Online ordering is not connected yet. Please use Place order on WhatsApp.':net?'We could not reach the store server. Check your internet connection and try again, or use Place order on WhatsApp.':x.message;
    }
    break}
   case 'cclear':CART=[];saveCart();render();break;
@@ -1127,7 +1217,7 @@ document.addEventListener('change',async ev=>{
  }
  if(d.st){
   try{
-   await API.call('/api/admin/entries/'+encodeURIComponent(d.st),{method:'PATCH',body:{status:e.value}});await loadEntries();toast('Status updated');
+   await sb('/rest/v1/entries?id=eq.'+encodeURIComponent(d.st),{method:'PATCH',headers:{Prefer:'return=minimal'},body:{status:e.value}});await loadEntries();toast('Status updated');
   }catch(x){toast('Could not update status')}
  }
 });
@@ -1146,11 +1236,11 @@ document.addEventListener('submit',async ev=>{
  ev.preventDefault();
  const f=ev.target.id;
  if(f==='loginForm'){
-  const pw=$('#lg-pw').value,er=$('#lgErr');
-  if(!pw)return val(er,'Enter the password.');
+  const em=$('#lg-em').value.trim(),pw=$('#lg-pw').value,er=$('#lgErr');
+  if(!em||!pw)return val(er,'Enter your email and password.');
   val(er,'Signing in...');
-  try{const r=await API.call('/api/login',{method:'POST',body:{password:pw}});try{sessionStorage.setItem('zyro-admin',r.token)}catch(x){}await adminStart()}
-  catch(x){val(er,x.status?x.message:'Could not reach the server.')}
+  try{await adminLogin(em,pw);await adminStart()}
+  catch(x){val(er,x.config?'The database is not connected yet. Finish the setup steps first.':(x.status?x.message:'Could not reach the server.'))}
   return;
  }
  if(f==='contactForm'){
